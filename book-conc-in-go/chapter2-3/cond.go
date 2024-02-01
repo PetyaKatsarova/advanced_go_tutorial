@@ -1,10 +1,10 @@
 package main
 
-import (
-	"fmt"
-	"sync"
-	"time"
-)
+// import (
+// 	"fmt"
+// 	"sync"
+// 	"time"
+// )
 
 /*
 c.Wait() in the loop is a blocking operation that prevents the queue from growing beyond 2 items. When the queue has 2 items, the loop's goroutine waits
@@ -12,31 +12,31 @@ c.Wait() in the loop is a blocking operation that prevents the queue from growin
   demonstrates a producer-consumer pattern where the production of new items is paused until there is space in the queue.
 */
 
-func main() {
-	c 		:= sync.NewCond(&sync.Mutex{})
-	queue 	:= make([]interface{}, 0, 10)
+// func main() {
+// 	c 		:= sync.NewCond(&sync.Mutex{})
+// 	queue 	:= make([]interface{}, 0, 10)
 
-	removeFromQueue := func (delay time.Duration)  {
-		time.Sleep(delay)
-		c.L.Lock()
-		queue = queue[1:]
-		fmt.Println("Removed from queue")
-		c.L.Unlock()
-		c.Signal()
-	}
+// 	removeFromQueue := func (delay time.Duration)  {
+// 		time.Sleep(delay)
+// 		c.L.Lock()
+// 		queue = queue[1:]
+// 		fmt.Println("Removed from queue")
+// 		c.L.Unlock()
+// 		c.Signal()
+// 	}
 
-	for i := 0; i < 10; i++ {
-		c.L.Lock()
-		/*c.Wait: atomically unlock the mutex and suspend the execution of the goroutine. It will wait until some other goroutine calls c.Signal()
-		 or c.Broadcast() on the same condition variable. Upon receiving the signal, c.Wait() automatically locks the mutex again and returns,
-		  allowing the goroutine to proceed.*/
-		for len(queue) == 2 { c.Wait() } // wait for the c.Signal()
-		fmt.Println("Adding to queue")
-		queue = append(queue, struct{}{})
-		go removeFromQueue(1*time.Second)
-		c.L.Unlock()
-	}
-}
+// 	for i := 0; i < 10; i++ {
+// 		c.L.Lock()
+// 		/*c.Wait: atomically unlock the mutex and suspend the execution of the goroutine. It will wait until some other goroutine calls c.Signal()
+// 		 or c.Broadcast() on the same condition variable. Upon receiving the signal, c.Wait() automatically locks the mutex again and returns,
+// 		  allowing the goroutine to proceed.*/
+// 		for len(queue) == 2 { c.Wait() } // wait for the c.Signal()
+// 		fmt.Println("Adding to queue")
+// 		queue = append(queue, struct{}{})
+// 		go removeFromQueue(1*time.Second)
+// 		c.L.Unlock()
+// 	}
+// }
 /*
 We also have a new method in this example, Signal. This is one of
  two methods that the Cond type provides for notifying goroutines

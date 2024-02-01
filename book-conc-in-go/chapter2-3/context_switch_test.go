@@ -10,6 +10,19 @@ import (
 // create 2 goroutines and send msg between them,a benchmark test designed to measure the time taken for context switching between two goroutines using channs
 // NB !!! go test -bench=. in terminal
 
+//cd src/gos-concurrency-building-blocks/the-sync-package/pool/ && \
+// go test -benchtime=10s -bench=.
+
+/*
+This benchmark test was focused on measuring the performance of a
+ context switch within the specified Go package. The main takeaways
+  are the average time per operation (232.4 nanoseconds) and the
+   fact that this operation does not involve any memory allocation.
+    This kind of benchmarking is crucial for understanding 
+	performance characteristics and optimization opportunities in
+	 concurrent Go applications.
+*/
+
 func BenchmarkContextSwitch(b *testing.B) {
 	var wg sync.WaitGroup
 	begin	:= make(chan struct{})
