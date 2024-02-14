@@ -1,4 +1,5 @@
-module advanced_go_tutorial
+// module advanced_go_tutorial
+module github.com/PetyaKatsarova/advanced_go_tutorial
 
 go 1.21.3
 
